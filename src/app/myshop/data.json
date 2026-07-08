@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "Judul lho yaa",
+    "category": "Movie",
+    "isAvailable": "false",
+    "priceRupiah": "18",
+    "seats": "5",
+    "location": "Semarang"
+  },
+  {
+    "id": 1,
+    "title": "Judul lho yaa",
+    "category": "Movie",
+    "isAvailable": "false",
+    "priceRupiah": "18",
+    "seats": "5",
+    "location": "Semarang"
+  }
+]
