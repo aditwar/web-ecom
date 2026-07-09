@@ -19,6 +19,16 @@ import Link from 'next/link';
 import { useAppSelector } from '@/redux/hooks';
 import { splitStr } from '@/helper/splitStr';
 
+function getAvatarUrl(
+  avatar: string | File | { url: string } | null | undefined,
+): string {
+  if (!avatar) return '/assets/svg/defaultAvatar.svg';
+  if (typeof avatar === 'string') return avatar;
+  if (avatar instanceof File) return URL.createObjectURL(avatar);
+  if ('url' in avatar) return avatar.url;
+  return '/assets/svg/defaultAvatar.svg';
+}
+
 export function NavMainSetting({
   items,
 }: {
@@ -47,15 +57,10 @@ export function NavMainSetting({
         >
           <img
             className="w-full h-full object-cover"
-            src={
-              author.avatar || users.avatar || '/assets/svg/defaultAvatar.svg'
-            }
+            src={getAvatarUrl(author.avatar) || getAvatarUrl(users.avatar)}
             alt={author.name || users.name || 'Your Name'}
-            onError={(e) =>
-              (e.currentTarget.src =
-                author.avatar ||
-                users.avatar ||
-                '/assets/svg/defaultAvatar.svg')
+            onError={(e: any) =>
+              (e.currentTarget.src = '/assets/svg/defaultAvatar.svg')
             }
           />
         </div>

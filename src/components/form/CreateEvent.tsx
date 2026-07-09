@@ -78,8 +78,14 @@ export function CreateEvent() {
     const payload = { ...data, author, users };
 
     try {
-      const { result, ok } = await createEvent(payload, appToken);
-      if (!ok) throw result.msg;
+      const response = await createEvent(payload, appToken);
+      if (!response) {
+        throw new Error('createEvent tidak mengembalikan response');
+      }
+
+      const { result, ok } = response;
+      if (!ok) throw new Error(result.msg);
+
       toast.success(result.msg);
       action.resetForm();
 
@@ -117,9 +123,7 @@ export function CreateEvent() {
               onCreateEvents(values, action);
             }}
           >
-            {({
-              setFieldValue,
-            }) => {
+            {({ setFieldValue }) => {
               return (
                 <>
                   <Form>
@@ -311,8 +315,7 @@ export function CreateEvent() {
                           />
                         </div>
                       </div>
-                      <div className="grid">
-                      </div>
+                      <div className="grid"></div>
                     </div>
                     <DialogFooter>
                       <Link

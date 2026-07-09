@@ -7,7 +7,7 @@ import {
 } from '@/app/type';
 import { cookies } from 'next/headers';
 
-const base_url = process.env.BASE_URL_API || 'http://localhost:8000/api';
+const base_url = process.env.BASE_URL_API;
 
 export const regAuthor = async (data: IAuthorReg) => {
   const res = await fetch(`${base_url}/author`, {

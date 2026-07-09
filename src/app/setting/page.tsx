@@ -5,6 +5,7 @@ import Wrapper from '@/components/wrapper';
 import ProfileSettingForm from '@/components/form/ProfileSettingForm';
 
 export default function SettingPage() {
+  
   return (
     <>
       <Suspense fallback={<LoadingComp />}>

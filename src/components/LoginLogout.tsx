@@ -4,7 +4,6 @@ import { deleteToken, getToken } from '@/lib/server';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/redux/hooks';
-
 import {
   Menubar,
   MenubarContent,
@@ -13,8 +12,17 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from '@/components/ui/menubar';
-
 import { signOut } from 'next-auth/react';
+
+function getAvatarUrl(
+  avatar: string | File | { url: string } | null | undefined,
+): string {
+  if (!avatar) return '/assets/svg/defaultAvatar.svg';
+  if (typeof avatar === 'string') return avatar;
+  if (avatar instanceof File) return URL.createObjectURL(avatar);
+  if ('url' in avatar) return avatar.url;
+  return '/assets/svg/defaultAvatar.svg';
+}
 
 export default function LoginLogout() {
   const router = useRouter();
@@ -54,16 +62,12 @@ export default function LoginLogout() {
                     <img
                       className="object-cover w-full h-full"
                       src={
-                        author.avatar ||
-                        users.avatar ||
-                        '/assets/svg/defaultAvatar.svg'
+                        getAvatarUrl(author.avatar) ||
+                        getAvatarUrl(users.avatar)
                       }
                       alt={author.name || users.name || 'Your Name'}
                       onError={(e: any) =>
-                        (e.currentTarget.src =
-                          author.avatar ||
-                          users.avatar ||
-                          '/assets/svg/defaultAvatar.svg')
+                        (e.currentTarget.src = '/assets/svg/defaultAvatar.svg')
                       }
                     />
                   </div>

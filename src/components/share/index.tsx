@@ -4,7 +4,7 @@ import LinkedInButton from './linkedIn';
 import TwitterButton from './twitter';
 import WaButton from './wa';
 
-const base_url = process.env.BASE_URL_WEBS || 'http://localhost:3000';
+const base_url = process.env.BASE_URL_WEBS as string;
 
 export default function ShareButton({
   slug,

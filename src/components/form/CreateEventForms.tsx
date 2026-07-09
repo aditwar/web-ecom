@@ -67,8 +67,14 @@ export default function CreateEventForms() {
     const payload = { ...data, author, users };
 
     try {
-      const { result, ok } = await createEvent(payload, appToken);
-      if (!ok) throw result.msg;
+      const response = await createEvent(payload, appToken);
+      if (!response) {
+        throw new Error('createEvent tidak mengembalikan response');
+      }
+
+      const { result, ok } = response;
+      if (!ok) throw new Error(result.msg);
+
       toast.success(result.msg);
       action.resetForm();
 
@@ -85,7 +91,6 @@ export default function CreateEventForms() {
 
   return (
     <>
-      
       <Formik<EventsInput>
         initialValues={initialValues}
         validationSchema={EventSchema}
@@ -93,9 +98,7 @@ export default function CreateEventForms() {
           onCreateEvents(values, action);
         }}
       >
-        {({
-          setFieldValue,
-        }) => {
+        {({ setFieldValue }) => {
           return (
             <Form>
               <div className="grid gap-4">
@@ -289,8 +292,7 @@ export default function CreateEventForms() {
                     />
                   </div>
                 </div>
-                <div className="grid">
-                </div>
+                <div className="grid"></div>
               </div>
               <DialogFooter>
                 <Button type="submit">Create Now</Button>

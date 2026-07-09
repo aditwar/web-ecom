@@ -1,5 +1,5 @@
 
-const base_url = process.env.BASE_URL_API || 'http://localhost:8000/api';
+const base_url = process.env.BASE_URL_API;
 
 export const verifyAuth = async (token: string) => {
   const res = await fetch(`${base_url}/auth/verify`, {

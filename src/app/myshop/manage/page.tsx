@@ -1,7 +1,7 @@
 import Wrapper from '@/components/wrapper';
 import { Metadata } from 'next';
 import { getEvent } from '@/lib/event';
-
+import { DataTable } from '@/components/data-table';
 
 export const metadata: Metadata = {
   title: 'Event Commerce | Manage Tickets',

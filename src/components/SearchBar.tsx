@@ -153,9 +153,9 @@ export default function SearchBar() {
               category={items.category}
               content={items.content}
               image={items?.image}
-              avatar={items.author.avatar || '/assets/svg/defaultAvatar.svg'}
-              author={items.author.name}
-              email={items.author.email}
+              avatar={items.author?.avatar || '/assets/svg/defaultAvatar.svg'}
+              author={items.author?.name ?? 'Anonymous'}
+              email={items.author?.email ?? 'anonymous@example.com'}
               priceRupiah={items.priceRupiah}
             />
           ))}

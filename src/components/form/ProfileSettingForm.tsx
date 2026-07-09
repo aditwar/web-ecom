@@ -23,10 +23,19 @@ import { getSession, signIn } from 'next-auth/react';
 import { deleteAuthor, updateAuthor } from '@/lib/author';
 import { getToken, deleteToken } from '@/lib/server';
 import { useEffect, useState } from 'react';
-import { InferType } from 'yup';
 import { loginAction } from '@/redux/slice/authorSlice';
 import { loginUserAction } from '@/redux/slice/authSlice';
 import { signOut } from 'next-auth/react';
+
+function getAvatarUrl(
+  avatar: string | File | { url: string } | null | undefined,
+): string {
+  if (!avatar) return '/assets/svg/defaultAvatar.svg';
+  if (typeof avatar === 'string') return avatar;
+  if (avatar instanceof File) return URL.createObjectURL(avatar);
+  if ('url' in avatar) return avatar.url;
+  return '/assets/svg/defaultAvatar.svg';
+}
 
 const RegisterSchema = yup.object().shape({
   name: yup.string().nullable(),
@@ -39,9 +48,7 @@ const RegisterSchema = yup.object().shape({
   avatar: yup.string().nullable(),
 });
 
-type SchemaType = InferType<typeof RegisterSchema>;
-
-export default function ProfileSettingForm({ item }: { item: SchemaType }) {
+export default function ProfileSettingForm() {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -310,12 +317,11 @@ export default function ProfileSettingForm({ item }: { item: SchemaType }) {
                         <img
                           className="object-cover w-full h-full"
                           src={
-                            author.avatar as string ||
-                            users.avatar as string ||
-                            '/assets/svg/defaultAvatar.svg'
+                            getAvatarUrl(author.avatar) ||
+                            getAvatarUrl(users.avatar)
                           }
                           alt={author.name || users.name || 'Your Name'}
-                          onError={(e) =>
+                          onError={(e: any) =>
                             (e.currentTarget.src =
                               '/assets/svg/defaultAvatar.svg')
                           }
@@ -452,9 +458,7 @@ export default function ProfileSettingForm({ item }: { item: SchemaType }) {
                     <Button
                       type="button"
                       className="w-full ..."
-                      onClick={() =>
-                        router.push('/')
-                      }
+                      onClick={() => router.push('/')}
                     >
                       Cancel
                     </Button>
