@@ -9,7 +9,8 @@ import { formatRupiah } from '@/helper/formatters';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { setAuthorEmail } from '@/redux/slice/authorSlice';
 
-const base_url = process.env.BASE_URL_WEBS;
+const base_url =
+  (process.env.BASE_URL_WEBS as string) || 'http://localhost:3000';
 
 export function CheckoutPaymentForm({
   priceRupiah,

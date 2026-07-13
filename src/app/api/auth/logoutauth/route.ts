@@ -1,7 +1,15 @@
 import { NextResponse } from 'next/server';
 
 export async function POST() {
-  const response = NextResponse.json({ success: true });
+  const response = NextResponse.json(
+    { success: true },
+    {
+      headers: {
+        'Set-Cookie':
+          'token=; Path=/; HttpOnly; Max-Age=0; SameSite=Strict; Secure',
+      },
+    },
+  );
   response.cookies.set('token', '', {
     path: '/',
     expires: new Date(0),

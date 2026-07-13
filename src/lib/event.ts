@@ -1,7 +1,7 @@
 import { EventsInput, EventsUpdate, IEditImage, IEvents } from '@/app/type';
 import { toast } from 'react-toastify';
 
-const base_url = process.env.BASE_URL_API;
+const base_url = process.env.BASE_URL_API || 'http://localhost:8000/api';
 
 export const createEvent = async (data: EventsInput, appToken: string) => {
   const formData = new FormData();

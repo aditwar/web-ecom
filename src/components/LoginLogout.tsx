@@ -13,6 +13,7 @@ import {
   MenubarTrigger,
 } from '@/components/ui/menubar';
 import { signOut } from 'next-auth/react';
+import Cookies from 'js-cookie';
 
 function getAvatarUrl(
   avatar: string | File | { url: string } | null | undefined,
@@ -39,9 +40,16 @@ export default function LoginLogout() {
   const onLogout = async () => {
     await deleteToken();
     setToken('');
+    Cookies.remove('token');
+    await fetch('/api/logout', { method: 'POST' });
+    await signOut({
+      callbackUrl: '/',
+      redirect: true,
+    });
     router.refresh();
     router.push('/');
   };
+
   const onLogin = async () => {
     router.refresh();
     router.push('/login');

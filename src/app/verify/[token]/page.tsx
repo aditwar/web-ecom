@@ -16,9 +16,9 @@ export default function verifyTokenPage() {
       const { result, ok } = await verifyAuthor(params.token);
       if (!ok) throw result.msg;
       toast.success(result.msg);
-
-      router.push('/login');
       router.refresh();
+      router.push('/login');
+
     } catch (err: any) {
       toast.error(err.message ?? err);
     }

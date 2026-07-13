@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/redux/hooks';
 import { signOut } from 'next-auth/react';
-
+import Cookies from 'js-cookie';
 
 export default function LoginLogoutHidde() {
   const router = useRouter();
@@ -21,8 +21,11 @@ export default function LoginLogoutHidde() {
   const onLogout = async () => {
     await deleteToken();
     setToken('');
-    router.push('/');
+    Cookies.remove('token');
+    await signOut({ redirect: false });
+
     router.refresh();
+    router.push('/');
   };
   const onLogin = async () => {
     router.push('/login');

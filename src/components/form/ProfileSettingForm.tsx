@@ -26,6 +26,7 @@ import { useEffect, useState } from 'react';
 import { loginAction } from '@/redux/slice/authorSlice';
 import { loginUserAction } from '@/redux/slice/authSlice';
 import { signOut } from 'next-auth/react';
+import Cookies from 'js-cookie';
 
 function getAvatarUrl(
   avatar: string | File | { url: string } | null | undefined,
@@ -52,7 +53,6 @@ export default function ProfileSettingForm() {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  // dapat token dulu
   const [token, setToken] = useState('');
   const getData = async () => {
     const res = await getToken();
@@ -94,13 +94,16 @@ export default function ProfileSettingForm() {
 
       const { result, ok } = await deleteAuthor(token, id, email);
       if (!ok) throw result.msg;
-      router.push('/');
-      toast.success(result.msg);
-      router.refresh();
 
       await deleteToken();
       setToken('');
-      signOut();
+      Cookies.remove('token');
+      await signOut({ redirect: false });
+
+      router.refresh();
+      router.push('/');
+
+      toast.success(result.msg);
     } catch (err: any) {
       console.log(err);
       toast.error(err as string);
@@ -141,7 +144,7 @@ export default function ProfileSettingForm() {
 
   const handleConnectGoogle = async (authorEmail?: string) => {
     await handleConnectProvider('google', authorEmail);
-  };  
+  };
   const handleConnectGithub = async (authorEmail?: string) => {
     await handleConnectProvider('github', authorEmail);
   };
