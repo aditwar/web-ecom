@@ -141,7 +141,7 @@ export default function ProfileSettingForm() {
 
   const handleConnectGoogle = async (authorEmail?: string) => {
     await handleConnectProvider('google', authorEmail);
-  };
+  };  
   const handleConnectGithub = async (authorEmail?: string) => {
     await handleConnectProvider('github', authorEmail);
   };

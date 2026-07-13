@@ -8,7 +8,7 @@ import { createToken, deleteToken } from '@/lib/server';
 import { useRouter } from 'next/navigation';
 import { RootState } from '@/redux/store';
 
-const base_url = process.env.BASE_URL_API;
+const base_url = process.env.BASE_URL_API || 'http://localhost:8000/api';
 
 export default function AuthProvider({
   children,
